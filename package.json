@@ -1,0 +1,16 @@
+{
+  "name": "starai",
+  "version": "1.0.0",
+  "description": "世界顶级 AI 内核 · 纯 JS 零依赖 · 数学不变量逐条可验证 · 作者：晨星",
+  "main": "src/core/la.js",
+  "scripts": {
+    "test": "node selftest.js",
+    "build:demo": "node build_demo.js"
+  },
+  "keywords": ["ai", "machine-learning", "linear-algebra", "pca", "gmm", "neural-network", "attention", "transformers"],
+  "author": "晨星 (MorningStar)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  }
+}

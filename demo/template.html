@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StarAI · 世界顶级 AI 内核演示</title>
+<style>
+  :root{
+    --bg:#0f1220; --panel:#171b2e; --panel2:#1e2440; --ink:#e8ecf5; --dim:#8b93b0;
+    --accent:#4f9dff; --accent2:#ffd24d; --ok:#39d98a; --bad:#ff5a5a; --line:#2a3050;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 -apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif}
+  header{padding:22px 26px;border-bottom:1px solid var(--line);background:linear-gradient(120deg,#141833,#0f1220)}
+  header h1{margin:0;font-size:22px;letter-spacing:.5px}
+  header .sub{color:var(--dim);margin-top:4px}
+  .badges{margin-top:10px}
+  .badge{display:inline-block;background:var(--panel2);border:1px solid var(--line);color:var(--accent2);padding:3px 10px;border-radius:20px;font-size:12px;margin-right:6px}
+  nav{display:flex;flex-wrap:wrap;gap:4px;padding:12px 26px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .tab{padding:8px 14px;border-radius:8px;cursor:pointer;color:var(--dim);border:1px solid transparent}
+  .tab:hover{color:var(--ink);background:var(--panel2)}
+  .tab.active{color:#fff;background:var(--accent);border-color:var(--accent)}
+  .panel{display:none;padding:22px 26px;max-width:980px;margin:0 auto}
+  .panel.active{display:block}
+  h2{font-size:18px;margin:0 0 12px}
+  .dim{color:var(--dim)}
+  #checkList .check{padding:6px 10px;border-radius:6px;margin:3px 0;background:var(--panel);border:1px solid var(--line)}
+  #checkList .ok{border-left:3px solid var(--ok)}
+  #checkList .bad{border-left:3px solid var(--bad)}
+  #checkSummary{margin:12px 0;font-size:15px}
+  canvas{width:100%;height:340px;background:#0b0e1a;border:1px solid var(--line);border-radius:10px}
+  button{background:var(--accent);color:#fff;border:0;padding:9px 16px;border-radius:8px;cursor:pointer;font-size:13px;margin:8px 8px 8px 0}
+  button:hover{filter:brightness(1.08)}
+  .info{margin-top:10px;color:var(--dim);font-size:13px}
+  table.hm{border-collapse:collapse;margin-top:10px}
+  table.hm th,table.hm td{border:1px solid var(--line);padding:6px 12px;text-align:center;font-variant-numeric:tabular-nums}
+  table.hm th{background:var(--panel2);color:var(--dim)}
+  .gen{background:var(--panel2);border-left:3px solid var(--accent);padding:12px 14px;border-radius:8px;margin-top:10px;white-space:pre-wrap}
+  .err{color:var(--bad);margin-top:10px}
+  .arch{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+  .alayer{border:1px solid var(--line);border-radius:8px;padding:10px 14px;background:var(--panel);display:flex;justify-content:space-between;align-items:center}
+  .alayer .lname{font-weight:600}
+  .alayer .lmod{color:var(--accent2);font-size:12px}
+  .alayer .ldesc{color:var(--dim);font-size:12px;max-width:60%}
+  footer{padding:20px 26px;border-top:1px solid var(--line);color:var(--dim);font-size:12px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <h1>StarAI · 世界顶级 AI 内核</h1>
+  <div class="sub">纯 JS 零依赖 · 数学不变量逐条可验证 · 作者：<b>晨星</b></div>
+  <div class="badges">
+    <span class="badge">零重写</span><span class="badge">集大成</span>
+    <span class="badge">可运行</span><span class="badge">可复现</span><span class="badge">可验证</span>
+    <span class="badge">MIT</span>
+  </div>
+</header>
+
+<nav>
+  <div class="tab active" data-tab="checks">✅ 不变量自检</div>
+  <div class="tab" data-tab="arch">🏗️ 十层架构</div>
+  <div class="tab" data-tab="pca">📉 PCA</div>
+  <div class="tab" data-tab="gmm">🎯 GMM</div>
+  <div class="tab" data-tab="nn">🧠 神经网络</div>
+  <div class="tab" data-tab="attn">👁️ 注意力</div>
+  <div class="tab" data-tab="llm">🌐 大模型集成</div>
+</nav>
+
+<div class="panel active" id="panel-checks">
+  <h2>数学不变量自检（23 项，独立参照交叉验证）</h2>
+  <div id="checkSummary"></div>
+  <div id="checkList"></div>
+  <div class="info">与 <code>node selftest.js</code> 同源；每项均以显式逆 / 数值差分等独立方法对照，杜绝"测试恰好放过 bug"。</div>
+</div>
+
+<div class="panel" id="panel-arch">
+  <h2>十层分解架构</h2>
+  <div class="arch">
+    <div class="alayer"><span class="lname">L10 交付与开源</span><span class="ldesc">GitHub 闭环 · 单文件 HTML · README · MIT</span><span class="lmod">本仓库</span></div>
+    <div class="alayer"><span class="lname">L9 验证与不变量</span><span class="ldesc">23 项数学不变量交叉验证</span><span class="lmod">selftest.js</span></div>
+    <div class="alayer"><span class="lname">L8 大模型集成</span><span class="ldesc">transformers.js 对接世界顶级预训练（WebGPU/WASM）</span><span class="lmod">Integration</span></div>
+    <div class="alayer"><span class="lname">L7 序列与注意力</span><span class="ldesc">缩放点积注意力（Transformer 核心）</span><span class="lmod">Attn</span></div>
+    <div class="alayer"><span class="lname">L6 深度监督学习</span><span class="ldesc">手写反向传播 MLP · 梯度检验 · XOR</span><span class="lmod">NN</span></div>
+    <div class="alayer"><span class="lname">L5 密度与聚类</span><span class="ldesc">GMM / EM（收敛性定理）</span><span class="lmod">GMM</span></div>
+    <div class="alayer"><span class="lname">L4 表示学习</span><span class="ldesc">PCA / SVD（Eckart–Young 最优）</span><span class="lmod">PCA</span></div>
+    <div class="alayer"><span class="lname">L3 概率推断原语</span><span class="ldesc">多元高斯 · KL 散度 · Cholesky 稳定</span><span class="lmod">Prob</span></div>
+    <div class="alayer"><span class="lname">L2 数值稳定原语</span><span class="ldesc">logsumexp · 稳定 softmax · 数值梯度</span><span class="lmod">Num</span></div>
+    <div class="alayer"><span class="lname">L1 数学基石</span><span class="ldesc">线代(Jacobi/SVD/Cholesky) · 概率 · 信息论</span><span class="lmod">LA</span></div>
+  </div>
+  <div class="info">详见 <code>docs/architecture.md</code>：每层不变量、易错点（如 Jacobi θ=0 陷阱、马氏距离 dᵀΣ⁻¹d）与修复记录。</div>
+</div>
+
+<div class="panel" id="panel-pca">
+  <h2>PCA · SVD 降维可视化</h2>
+  <button id="btnPca">重新生成并拟合</button>
+  <canvas id="pcaCanvas"></canvas>
+  <div class="info" id="pcaInfo"></div>
+</div>
+
+<div class="panel" id="panel-gmm">
+  <h2>GMM · EM 聚类可视化</h2>
+  <button id="btnGmm">重新生成并拟合</button>
+  <canvas id="gmmCanvas"></canvas>
+  <div class="info" id="gmmInfo"></div>
+</div>
+
+<div class="panel" id="panel-nn">
+  <h2>神经网络 · XOR 决策边界</h2>
+  <button id="btnNn">训练并显示边界</button>
+  <canvas id="nnCanvas"></canvas>
+  <div class="info" id="nnInfo"></div>
+</div>
+
+<div class="panel" id="panel-attn">
+  <h2>缩放点积注意力 · 权重热力图</h2>
+  <div id="attnBox"></div>
+  <div class="info" id="attnInfo"></div>
+</div>
+
+<div class="panel" id="panel-llm">
+  <h2>大模型集成 · 对接世界顶级预训练</h2>
+  <button id="btnLlm">加载模型并生成文本</button>
+  <div id="llmBox" class="info">点击按钮，通过 transformers.js 动态加载世界级因果语言模型（首次需联网下载量化权重）。离线核心（自检 + 全部可视化）不依赖网络。</div>
+</div>
+
+<footer>
+  StarAI · 作者 <b>晨星</b> · 零重写 · 集大成 · 闭环交付 ｜ <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> · MIT License
+</footer>
+
+<script>/*__CORE__*/</script>
+<script>/*__UI__*/</script>
+</body>
+</html>
