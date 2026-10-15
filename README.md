@@ -1,5 +1,12 @@
 # StarAI · 世界顶级 AI 内核
 
+<div align="center">
+
+[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/CJX0712/StarAI-Kernel/blob/main/LICENSE) [![Language](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript)](https://github.com/CJX0712/StarAI-Kernel) [![Deps](https://img.shields.io/badge/dependencies-0-brightgreen)](https://github.com/CJX0712) [![Verified](https://img.shields.io/badge/invariants-verified-brightgreen)](https://github.com/CJX0712) [![Author](https://img.shields.io/badge/author-晨星-blueviolet)](https://github.com/CJX0712)
+
+</div>
+
+
 > **零重写 · 集大成 · 闭环交付**
 > 纯 JavaScript、零依赖、可在浏览器与 Node 直接运行的世界级 AI 内核。
 > 每一项算法都站在世界顶级数学/算法/预训练模型之上，并能被数学不变量逐条交叉验证。
